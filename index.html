@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harshita Plastic Products Pvt. Ltd.</title>
+
+    <link rel="icon" type="image/png" href="Logo/Logo.jpeg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for animations and professional look */
+        :root {
+            --color-primary: #123456;
+            /* Dark Professional Blue */
+            --color-secondary: #2E86C1;
+            /* Bright Accent Blue */
+            --color-text-primary: #1e293b;
+            --color-text-secondary: #4b5563;
+            --color-background: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Responsive image aspect ratio for service cards */
+        .service-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            /* This will maintain a consistent aspect ratio on all screens */
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-100% / 32 * 16));
+                /* Half of total images */
+            }
+        }
+
+        .py-12 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .bg-white {
+            background-color: #fff;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .mb-12 {
+            margin-bottom: 3rem;
+        }
+
+        .inline-block {
+            display: inline-block;
+        }
+
+        .text-gray-700 {
+            color: #4a5568;
+        }
+
+        .max-w-2xl {
+            max-width: 42rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        /* Keyframe animations */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+        }
+
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes subtle-zoom {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        @keyframes scale-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* New keyframe animation for continuous slider */
+        @keyframes slide-left {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Slider container styles */
+        .slider-wrapper {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .slider-inner {
+            display: flex;
+            width: max-content;
+            object-fit: contain;
+            animation: slide 60s linear infinite;
+        }
+
+        .slider-inner:hover {
+            animation-play-state: paused;
+        }
+
+        .slider-inner img {
+            width: 300px;
+            height: auto;
+            object-fit: cover;
+            margin: 0 10px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scroll-triggered animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-on-scroll[data-animation="fade-in"] {
+            transition-property: opacity;
+        }
+
+        .animate-on-scroll[data-animation="slide-up"] {
+            transform: translateY(50px);
+            transition-property: opacity, transform;
+        }
+
+        .animate-on-scroll[data-animation="scale-in"] {
+            transform: scale(0.9);
+            transition-property: opacity, transform;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .delay-500 {
+            transition-delay: 500ms;
+        }
+
+        /* Button and Link Styles */
+        .btn-outline {
+            border: 1.5px solid white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: pulse 2s infinite;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--color-primary);
+            /* New color for hover */
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+
+        .hover-underline {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-secondary);
+            /* New accent color */
+            transition: width 0.3s ease;
+        }
+
+        .hover-underline:hover::after {
+            width: 100%;
+        }
+
+        /* 3D card hover effect */
+        .card-3d-hover {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card-3d-hover:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero text animations, faster and cleaner */
+        .hero-text-container h1,
+        .hero-text-container p,
+        .hero-text-container div {
+            animation: fade-in-up 0.8s cubic-bezier(0.6, 0.04, 0.98, 0.335) forwards;
+            opacity: 0;
+        }
+
+        .hero-text-container h1 {
+            animation-delay: 0.1s;
+        }
+
+        .hero-text-container p {
+            animation-delay: 0.2s;
+        }
+
+        .hero-text-container div {
+            animation-delay: 0.3s;
+        }
+
+        /* Brighter form input styles with new focus effect */
+        input,
+        textarea {
+            padding: 0.75rem;
+            border: 2px solid #6b7280;
+            background-color: #ffffff;
+            color: #111827;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            /* New accent color */
+            box-shadow: 0 0 0 4px rgba(46, 134, 193, 0.2);
+            /* Adjusted box-shadow color */
+            background-color: #f8fafc;
+        }
+
+        /* Contact form button styling */
+        #contact-form button {
+            background-color: var(--color-secondary);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        #contact-form button:hover {
+            background-color: #2471A3;
+            /* Darker shade of blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile menu specific styles */
+        .mobile-nav-container {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .mobile-nav-container.active {
+                display: block;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans leading-relaxed">
+
+    <nav class="w-full bg-white fixed top-0 left-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="Index-Images/Logo.jpeg" alt="Harshita Plastics Logo" class="h-16 w-auto">
+                <span class="text-xl font-bold text-blue-600 select-none" style="color:#0077B6;">Harshita Plastic
+                    Products Pvt. Ltd.</span>
+            </a>
+            <ul class="hidden md:flex space-x-8 text-gray-700 font-medium text-base">
+                <li><a href="index.html" class="text-blue-600 font-bold hover-underline pb-1">Home</a></li>
+                <li><a href="product.html" class="hover-underline pb-1">Products</a></li>
+                <li><a href="about.html" class="hover-underline pb-1">Who We Are</a></li>
+                <li><a href="contact.html" class="hover-underline pb-1">Contact Us</a></li>
+            </ul>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                aria-label="Toggle mobile menu">
+                <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <ul class="flex flex-col items-center py-4 space-y-4 text-gray-700 font-medium text-base">
+                <li><a href="index.html" class="nav-active hover-underline pb-1">Home</a></li>
+                <li><a href="product.html" class="hover-underline pb-1">Products</a></li>
+                <li><a href="about.html" class="hover-underline pb-1">Who We Are</a></li>
+                <li><a href="contact.html" class="hover-underline pb-1">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="relative min-h-screen bg-black overflow-hidden flex items-center">
+        <div id="hero-image-container" class="absolute inset-0 z-0">
+            <img src="Index-Images/bg.webp"
+                alt="A wide view of the Visakhapatnam coastline with the city's buildings curving along the bay."
+                class="w-full h-full object-cover object-center" id="hero-image" />
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+        <div class="relative w-full px-6 sm:px-12 text-center text-white z-10 hero-text-container">
+            <div class="max-w-5xl mx-auto">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4">
+                    <span class="text-orange-500">Harshita Plastic Products Pvt. Ltd.</span><br />
+                    <span class="text-3xl sm:text-4xl md:text-4xl font-semibold text-white">Quality Packaging
+                        Solutions</span>
+                </h1>
+                <p class="text-lg sm:text-xl max-w-xl mx-auto mb-8 font-light tracking-wide">Specializing in Co-Extruded
+                    Polyfilms and Stretch Films for Diverse Packaging Needs</p>
+            </div>
+            <div class="flex justify-center sm:justify-center gap-6">
+                <a href="#contact-section"
+                    class="text-lg px-6 py-3 font-semibold text-white bg-transparent border-2 border-white rounded-full transition-all duration-300 hover:bg-white hover:text-orange-600"
+                    aria-label="Get a Quote">Get a Quote</a>
+
+                <a href="product.html"
+                    class="text-lg px-6 py-3 font-semibold text-white bg-transparent border-2 border-white rounded-full transition-all duration-300 hover:bg-white hover:text-orange-600"
+                    aria-label="Explore Products">Explore Products</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div class="animate-on-scroll" data-animation="slide-up">
+                <h2 class="text-3xl font-bold mb-3">About Harshita Plastic Products Pvt. Ltd.</h2>
+                <p class="text-gray-700 mb-5 max-w-md">
+                    Leading manufacturer of co-extruded multilayer polyfilms and stretch films, committed to hygiene and
+                    quality in flexible packaging solutions.
+                </p>
+                <div class="flex gap-8 text-center max-w-sm">
+                    <div class="animate-on-scroll delay-200" data-animation="scale-in">
+                        <h3 class="text-blue-600 text-4xl font-extrabold">150+</h3>
+                        <p class="text-gray-600 text-sm mt-1">Quality Guaranteed</p>
+                    </div>
+                    <div class="animate-on-scroll delay-300" data-animation="scale-in">
+                        <h3 class="text-blue-600 text-4xl font-extrabold">15</h3>
+                        <p class="text-gray-600 text-sm mt-1">Trusted Industries</p>
+                    </div>
+                </div>
+            </div>
+            <div class="animate-on-scroll delay-200" data-animation="scale-in">
+                <video class="rounded-xl shadow-lg object-contain w-full h-72 sm:h-80 md:h-96 border border-gray-200"
+                    playsinline controls onerror="this.style.display='none'">
+                    <source src="Index-Images/Intro-Video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="bg-[var(--color-primary)] text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-2 animate-on-scroll" data-animation="fade-in">Our Services</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto mb-8 animate-on-scroll delay-200" data-animation="fade-in">Explore
+                our specialized packaging solutions tailored for various industries and applications</p>
+
+            <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
+                <article
+                    class="bg-white text-gray-900 rounded-xl shadow-md overflow-hidden flex flex-col card-3d-hover animate-on-scroll delay-200"
+                    data-animation="slide-up">
+                    <img src="Home/Our Services/Stretch Film.png"
+                        alt="Colorful stretch films standing neatly in a row on table, symbolizing industrial and home packaging solutions"
+                        class="service-image" onerror="this.style.display='none'" />
+                    <div class="px-5 py-4 flex flex-col flex-grow">
+                        <h3 class="text-lg font-semibold mb-2">Stretch Film</h3>
+                        <p class="text-sm text-gray-700 flex-grow">High-quality stretch films for industrial and
+                            domestic packaging needs.</p>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-white text-gray-900 rounded-xl shadow-md overflow-hidden flex flex-col card-3d-hover animate-on-scroll delay-300"
+                    data-animation="slide-up">
+                    <img src="Home/Our Services/Food Packaging Film.png"
+                        alt="Cardboard packaging box with sustainable branding on wooden table representing food packaging solutions"
+                        class="service-image" onerror="this.style.display='none'" />
+                    <div class="px-5 py-4 flex flex-col flex-grow">
+                        <h3 class="text-lg font-semibold mb-2">Food Packaging Film</h3>
+                        <p class="text-sm text-gray-700 flex-grow">Safe and hygienic packaging solutions for food,
+                            snacks, and confectionery products.</p>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-white text-gray-900 rounded-xl shadow-md overflow-hidden flex flex-col card-3d-hover animate-on-scroll delay-400"
+                    data-animation="slide-up">
+                    <img src="Home/Our Services/Pharma Packaging Film.png"
+                        alt="Pharmaceutical packaging products like pouches and blister packs placed on pink fabric background for display"
+                        class="service-image" onerror="this.style.display='none'" />
+                    <div class="px-5 py-4 flex flex-col flex-grow">
+                        <h3 class="text-lg font-semibold mb-2">Pharma Packaging Film</h3>
+                        <p class="text-sm text-gray-700 flex-grow">Innovative packaging solutions for pharmaceuticals
+                            and medical products.</p>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-white text-gray-900 rounded-xl shadow-md overflow-hidden flex flex-col card-3d-hover animate-on-scroll delay-500"
+                    data-animation="slide-up">
+                    <img src="Home/Our Services/Shrink Film.png"
+                        alt="Durable and branded boxes for e-commerce shipping and logistics"
+                        class="service-image" onerror="this.style.display='none'" />
+                    <div class="px-5 py-4 flex flex-col flex-grow">
+                        <h3 class="text-lg font-semibold mb-2">Shrink Film</h3>
+                        <p class="text-sm text-gray-700 flex-grow">High quality shrink film for food & beverage
+                            industry.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="bg-white py-12 px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center">
+            <h2 class="text-3xl font-bold mb-2 inline-block"
+                style="background-color: #f57e28; color: #ffffff; border-radius: 20px; padding: 10px 20px; font-size: 24px;">
+                Photo Gallery
+            </h2>
+            <p class="text-gray-600 font-bold mt-4">Explore our range of flexible packaging solutions</p>
+        </div>
+        <br>
+        <div class="slider-container">
+            <div class="slider-inner">
+                <img src="Index-Images/1.png" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/2.png" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/3.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/4.png" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/5.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/6.jpg" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/7.jpg" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/8.jpg" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/9.1.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/10.png" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/11.png" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/13.jpg" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/14.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/15.png" alt="Transparent packaging bag with almonds" />
+
+
+                <img src="Index-Images/1.png" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/2.png" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/3.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/4.png" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/5.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/6.jpg" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/7.jpg" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/8.jpg" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/9.1.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/10.png" alt="Trade show booth for a packaging company" />
+                <img src="Index-Images/11.png" alt="Numerous bottled products on a conveyor belt" />
+                <img src="Index-Images/13.jpg" alt="White minimalist flexible packaging bags" />
+                <img src="Index-Images/14.png" alt="Transparent packaging bag with almonds" />
+                <img src="Index-Images/15.png" alt="Transparent packaging bag with almonds" />
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section" class="bg-gray-200 py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <br>
+            <br>
+            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-on-scroll" data-animation="scale-in">
+
+
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-2 animate-on-scroll inline-block"
+                        style="background-color: #f57e28; color: #ffffff; border-radius: 20px; padding: 10px 20px; font-size: 24px;">
+                        Get a Free Quote
+                    </h2>
+                    <p class="text-gray-600 font-bold mt-4">Fill out the form below and one of our experts will get
+                        in touch with you shortly</p>
+                </div>
+                <br>
+
+
+                <form id="contact-form" action="send_email.php" method="POST" class="space-y-5 text-left">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="animate-on-scroll delay-100" data-animation="slide-up">
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3">
+                        </div>
+                        <div class="animate-on-scroll delay-200" data-animation="slide-up">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email
+                                Address</label>
+                            <input type="email" id="email" name="email" required autocomplete="email"
+                                class="w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3">
+                        </div>
+                    </div>
+                    <div class="animate-on-scroll delay-300" data-animation="slide-up">
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Inquiry</label>
+                        <textarea id="message" name="message" rows="4" required
+                            class="w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3"></textarea>
+                    </div>
+                    <div class="text-center animate-on-scroll delay-400" data-animation="slide-up">
+                        <button type="submit"
+                            class="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300"
+                            style="background-color: #f57e28;">
+                            Submit Your Inquiry
+                        </button>
+                    </div>
+                </form>
+                <div id="contact-message" class="mt-4 text-sm font-medium"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div
+            class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-start gap-8">
+
+            <div>
+                <h3 class="text-white font-semibold text-lg">Harshita Plastic Products Pvt. Ltd.</h3>
+                <h4 class="text-xs">Leading manufacturer of flexible packaging solutions.</h4>
+                <br>
+                <p class="text-xs text-gray-500">© 2025. All rights reserved.</p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-semibold text-lg mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-blue-600 transition-colors">Home</a></li>
+                    <li><a href="product.html" class="hover:text-blue-600 transition-colors">Products</a></li>
+                    <li><a href="about.html" class="hover:text-blue-600 transition-colors">Who We Are</a></li>
+                    <li><a href="contact.html" class="hover:text-blue-600 transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-lg mb-4">Contact Us</h3>
+                <p class="text-sm mb-2"><a href="tel:+91 9871977969">+91 9999874038</a></p>
+                <p class="text-sm mb-2"><a href="tel:+91 9871977969">+91 9871977969</a></p>
+                <p class="text-sm mb-2"><a href="mailto:info@harshitaplastics.com">info@harshitaplastics.com</a></p>
+                <p class="text-sm mb-2"><a
+                        href="mailto:harshitaplasticproducts@gmail.com">harshitaplasticproducts@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+
+
+        // Scroll-triggered animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+
+</html>

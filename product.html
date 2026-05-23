@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harshita Plastic Products Pvt. Ltd.</title>
+    <link rel="icon" type="image/png" href="Logo/Logo.jpeg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: 80px;
+        }
+
+        /* Nav Bar Styles */
+        .hover-underline {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background-color: #2E86C1;
+            transition: width 0.3s ease;
+        }
+
+        .hover-underline:hover::after {
+            width: 100%;
+        }
+
+        .nav-active {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* FAQ Styles */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 1rem 1rem 1.5rem 1rem;
+        }
+
+        .faq-item .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .faq-item.active .icon {
+            transform: rotate(180deg);
+        }
+
+        /* Swiper Button Base Styles */
+        .swiper-button-next,
+        .swiper-button-prev {
+            position: absolute;
+            top: 50%; /* Centered vertically */
+            transform: translateY(-50%);
+            z-index: 10;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            width: 44px;
+            border-radius: 9999px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+             background-color: rgba(255, 255, 255, 0.9);
+             color: black;
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            content: '';
+        }
+
+        /* Product & Machinery Slider Buttons */
+         .product-hero-swiper .swiper-button-next,
+         .product-hero-swiper .swiper-button-prev,
+         .machinery-swiper .swiper-button-next,
+         .machinery-swiper .swiper-button-prev {
+             top: 50%; /* Adjusted for better centering on aspect ratio */
+         }
+        
+         .product-hero-swiper .swiper-button-next { right: 10px; }
+         .product-hero-swiper .swiper-button-prev { left: 10px; }
+         .machinery-swiper .swiper-button-next { right: 10px; }
+         .machinery-swiper .swiper-button-prev { left: 10px; }
+
+
+        /* Video Slider Buttons */
+        .video-slider-container .swiper-button-next { right: 8px; }
+        .video-slider-container .swiper-button-prev { left: 8px; }
+
+
+        /* Swiper Pagination Styles */
+        .product-hero-swiper { padding-bottom: 40px; }
+        .swiper-pagination-hero .swiper-pagination-bullet { background: #94a3b8; opacity: 0.8; }
+        .swiper-pagination-hero .swiper-pagination-bullet-active { background: #ffffff; opacity: 1; }
+        .machinery-swiper { padding-top: 20px; padding-bottom: 50px; }
+        
+        /* UPDATED ASPECT RATIO for product images */
+        .product-image { 
+            width: 100%; 
+            height: auto; 
+            aspect-ratio: 447 / 256; 
+            object-fit: cover; 
+        }
+
+        /* ADDED ASPECT RATIO for machinery slider slides */
+        .machinery-swiper .swiper-slide {
+            aspect-ratio: 447 / 256;
+            overflow: hidden; /* Ensure image cover works well */
+        }
+
+
+        /* === NEW VIDEO CARD STYLES === */
+        .video-card {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            aspect-ratio: 447 / 256; /* UPDATED ASPECT RATIO */
+        }
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .video-card:hover .overlay {
+            opacity: 1;
+        }
+        .video-card .video-title {
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            align-self: flex-start; /* Title at the top */
+        }
+        .video-card .controls {
+            display: flex;
+            justify-content: flex-end; /* Controls at the bottom right */
+            align-items: center;
+        }
+        .video-card .control-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .video-card .control-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .video-card .play-pause-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none; /* Allows clicks to go through to the video */
+        }
+        .video-card.is-paused .play-pause-icon {
+            opacity: 1;
+        }
+    </style>
+
+</head>
+
+<body class="bg-white text-gray-900 font-sans antialiased selection:bg-blue-400 selection:text-white">
+
+    <nav class="w-full bg-white fixed top-0 left-0 z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="Index-Images/Logo.jpeg" alt="Harshita Plastics Logo" class="h-16 w-auto">
+                <span class="text-xl font-bold text-blue-600 select-none " style="color:#0077B6;">Harshita Plastic Products Pvt.
+                    Ltd.</span>
+            </a>
+            <ul class="hidden md:flex space-x-8 text-gray-700 font-medium text-base">
+                <li><a href="index.html" class="hover-underline pb-1">Home</a></li>
+                <li><a href="product.html" class="nav-active font-bold hover-underline pb-1">Products</a></li>
+                <li><a href="about.html" class="hover-underline pb-1">Who We Are</a></li>
+                <li><a href="contact.html" class="hover-underline pb-1">Contact Us</a></li>
+            </ul>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                aria-label="Toggle mobile menu">
+                <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <ul class="flex flex-col items-center py-4 space-y-4 text-gray-700 font-medium text-base">
+                <li><a href="index.html" class="hover-underline pb-1">Home</a></li>
+                <li><a href="product.html" class="nav-active hover-underline pb-1">Products</a></li>
+                <li><a href="about.html" class="hover-underline pb-1">Who We Are</a></li>
+                <li><a href="contact.html" class="hover-underline pb-1">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="bg-slate-800 text-white pt-16 pb-20">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-3">Our Products</h2>
+                <p class="max-w-2xl mx-auto text-sm font-light tracking-wide mb-12">
+                    Explore our range of high-quality flexible packaging solutions tailored for various industries.
+                </p>
+
+                <div class="swiper product-hero-swiper max-w-5xl mx-auto">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <article
+                                class="bg-white rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 text-gray-900 h-full flex flex-col">
+                                <img src="Product Page/Our Products/STRETCH FILM.png" alt="Industrial stretch films"
+                                    class="w-full product-image"
+                                    onerror="this.src='https://placehold.co/600x400/334155/ffffff?text=Stretch+Films'" />
+                                <div class="p-5 flex-grow">
+                                    <h3 class="font-semibold mb-2">STRETCH FILM</h3>
+                                    <p class="text-sm leading-relaxed text-gray-600">High quality stretch film for domestic & Industrial
+                                        applications.</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="swiper-slide">
+                            <article
+                                class="bg-white rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 text-gray-900 h-full flex flex-col">
+                                <img src="Product Page/Our Products/GP NATURAL  MET. FILMS.png" alt="Industrial stretch films"
+                                    class="w-full product-image"
+                                    onerror="this.src='https://placehold.co/600x400/334155/ffffff?text=GP+Films'" />
+                                <div class="p-5 flex-grow">
+                                    <h3 class="font-semibold mb-2">GP NATURAL METALLOCENE FILM</h3>
+                                    <p class="text-sm leading-relaxed text-gray-600">High-quality GP and Metallocene films for superior durability and performance.</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="swiper-slide">
+                            <article
+                                class="bg-white rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 text-gray-900 h-full flex flex-col">
+                                <img src="Product Page/Our Products//Milk.png" alt="Versatile shrink films"
+                                    class="w-full product-image"
+                                    onerror="this.src='https://placehold.co/600x400/334155/ffffff?text=Shrink+Films'" />
+                                <div class="p-5 flex-grow">
+                                    <h3 class="font-semibold mb-2">MILK, OIL, ATTA FILM</h3>
+                                    <p class="text-sm leading-relaxed text-gray-600">High gloss, high strength Opaque Milk, Oil, Atta films.</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="swiper-slide">
+                            <article
+                                class="bg-white rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 text-gray-900 h-full flex flex-col">
+                                <img src="Product Page/Our Products/NAT  NIT FILMS.png" alt="Food packaging box"
+                                    class="w-full product-image"
+                                    onerror="this.src='https://placehold.co/600x400/334155/ffffff?text=Food+Packaging'" />
+                                <div class="p-5 flex-grow">
+                                    <h3 class="font-semibold mb-2">NATURAL NITROGEN FILM</h3>
+                                    <p class="text-sm leading-relaxed text-gray-600">Premium film offering excellent strength and
+                                        versatile packaging solutions.</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="swiper-slide">
+                            <article
+                                class="bg-white rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 text-gray-900 h-full flex flex-col">
+                                <img src="Product Page/Our Products/SHRINK FILM.jpg" alt="Plastic film roll"
+                                    class="w-full product-image"
+                                    onerror="this.src='https://placehold.co/600x400/334155/ffffff?text=Plastic+Film'" />
+                                <div class="p-5 flex-grow">
+                                    <h3 class="font-semibold mb-2">SHRINK FILM</h3>
+                                    <p class="text-sm leading-relaxed text-gray-600">Durable shrink film for secure, tight, and protective
+                                        packaging applications.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination swiper-pagination-hero"></div>
+                    <div class="swiper-button-next">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </div>
+                    <div class="swiper-button-prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-2 animate-on-scroll inline-block"
+                    style="background-color: #f57e28; color: #ffffff; border-radius: 30px; padding: 10px 20px; font-size: 24px;">
+                    Product Application
+                </h2>
+                <p class="text-gray-600" style="font-weight: bold;">Versatile Solutions for Every Wrap</p>
+            </div>
+            <br>
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-16 lg:items-stretch">
+                <main class="w-full lg:w-2/4">
+                    <h1 class="text-4xl font-bold text-gray-800" style="font-size: 17px;">STRETCH FILMS</h1>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">A highly stretchable plastic film commonly made
+                        from polyethylene and it is wrapped around items. Also referred to as stretch wrap, it is manufactured using
+                        extrusion process.</p>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">Stretch film has a high degree of memory once
+                        stretched, it offers higher load and stretch capacity, allowing product loads to remain better secured. Higher
+                        tear resistance is an advantage when securing loads with sharp edges.</p>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">Machine stretch wrap is ideal for protecting items
+                        from elements like dust and moisture. It also offers superior protection for items that may be subject to
+                        vibration or shock during transportation. Stretch films also protect items from ultraviolet rays. Stretch
+                        films are easy to wrap and can increase worker productivity.</p>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">A flexible, clingy plastic film made from
+                        polyethylene, stretch wrap is used to tightly secure goods and is produced through the extrusion process.
+                    </p>
+                    <div class="mt-8 shadow-lg rounded-lg overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-700">
+                                <thead class="text-xs text-white uppercase" style="background-color: #d9534f;">
+                                    <tr>
+                                        <th scope="col" colspan="2" class="px-4 py-3 text-center normal-case">SIZE</th>
+                                        <th scope="col" rowspan="2" class="px-4 py-3 text-center border-l border-white/50 normal-case">Box Qty</th>
+                                        <th scope="col" rowspan="2" class="px-4 py-3 text-center border-l border-white/50 normal-case">Weight</th>
+                                    </tr>
+                                    <tr class="border-t border-white/50">
+                                        <th scope="col" class="px-4 py-3 text-center font-medium">Inch</th>
+                                        <th scope="col" class="px-4 py-3 text-center font-medium border-l border-white/50">MM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b"><td class="px-4 py-3 text-center">3</td><td class="px-4 py-3 text-center border-l">75</td><td class="px-4 py-3 text-center border-l">100</td><td class="px-4 py-3 text-center border-l">250GMS</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-4 py-3 text-center">4</td><td class="px-4 py-3 text-center border-l">100</td><td class="px-4 py-3 text-center border-l">80</td><td class="px-4 py-3 text-center border-l">300GMS</td></tr>
+                                    <tr class="bg-white border-b"><td class="px-4 py-3 text-center">6</td><td class="px-4 py-3 text-center border-l">150</td><td class="px-4 py-3 text-center border-l">48</td><td class="px-4 py-3 text-center border-l">500GMS</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-4 py-3 text-center">8</td><td class="px-4 py-3 text-center border-l">200</td><td class="px-4 py-3 text-center border-l">12</td><td class="px-4 py-3 text-center border-l">2KGS</td></tr>
+                                    <tr class="bg-white border-b"><td class="px-4 py-3 text-center">10</td><td class="px-4 py-3 text-center border-l">250</td><td class="px-4 py-3 text-center border-l">12</td><td class="px-4 py-3 text-center border-l">2.5KGS</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-4 py-3 text-center">12</td><td class="px-4 py-3 text-center border-l">300</td><td class="px-4 py-3 text-center border-l">8</td><td class="px-4 py-3 text-center border-l">3.5KGS</td></tr>
+                                    <tr class="bg-white border-b"><td class="px-4 py-3 text-center">12</td><td class="px-4 py-3 text-center border-l">300</td><td class="px-4 py-3 text-center border-l">24</td><td class="px-4 py-3 text-center border-l">1 KG</td></tr>
+                                    <tr class="bg-gray-50 border-b"><td class="px-4 py-3 text-center">18</td><td class="px-4 py-3 text-center border-l">450</td><td class="px-4 py-3 text-center border-l">6</td><td class="px-4 py-3 text-center border-l">4.5KGS</td></tr>
+                                    <tr class="bg-white border-b"><td class="px-4 py-3 text-center">20</td><td class="px-4 py-3 text-center border-l">500</td><td class="px-4 py-3 text-center border-l">6</td><td class="px-4 py-3 text-center border-l">5KGS</td></tr>
+                                    <tr class="bg-gray-50"><td class="px-4 py-3 text-center">24</td><td class="px-4 py-3 text-center border-l">600</td><td class="px-4 py-3 text-center border-l">6</td><td class="px-4 py-3 text-center border-l">5.5KGS</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+                <aside class="w-full lg:w-1/2 space-y-3 flex flex-col">
+                    <h1 class="text-4xl font-bold text-gray-800" style="font-size: 17px;">MULTILAYER FILMS</h1>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">Multilayer films are structures composed of two or more layers of different polymers that are combined to achieve specific performance characteristics that are not possible with single layer.  </p>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">Multiple polymers such as LLDPE, HDPE, LDPE, Metallocene are extruded simultaneously through a single die, creating a multilayer structure. The layers can be combined through co-extrusion and the selection of materials is tailored to various desired applications.</p>
+                    <p class="mt-4 text-gray-600 leading-relaxed text-justify">These films are used in different packaging applications, offering enhanced barrier properties, mechanical strength, puncture resistance, printability and sealability.  </p>
+                   <br><br><br><br>
+                    <p class="mb-5 gap-10" style="font-weight: normal;">Multilayer films are widely used for various packaging needs such as : </p>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">Seed, grain & fertilizer packaging</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">Pharmaceutical packaging</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">Food & beverages packaging</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">High strength shrink wrap</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">Water & liquid packaging</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">High strength stretch wrap for domestic & industrial packaging</div>
+                    <div class="bg-blue-900 text-white font-medium p-4 rounded-md shadow-md cursor-pointer hover:bg-blue-800 transition-colors">Opaque & natural film for oil & milk packaging</div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-6 py-14 overflow-hidden">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-2 animate-on-scroll inline-block"
+                    style="background-color: #f57e28; color: #ffffff; border-radius: 30px; padding: 8px 18px; font-size: 24px;">
+                    Manufacturing Facilities
+                </h2>
+                <p class="text-gray-600" style="font-weight: bold;">State-of-the-art machinery for superior quality</p>
+            </div>
+            <div class="swiper machinery-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="Machinery/1.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+1'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/2.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+2'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/3.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+3'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/4.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+4'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/6.png" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+4'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/5.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+4'" /></div>
+                    <div class="swiper-slide"><img src="Machinery/7.jpeg" class="w-full h-full object-cover rounded-lg shadow-xl" onerror="this.src='https://placehold.co/600x800/e2e8f0/334155?text=Machine+4'" /></div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></div>
+                <div class="swiper-button-prev"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></div>
+            </div>
+        </section>
+        
+        <section class="bg-gray-50 py-14">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2 inline-block"
+                        style="background-color: #f57e28; color: #ffffff; border-radius: 30px; padding: 8px 18px; font-size: 24px;">
+                        The Heart of Our Production
+                    </h2>
+                    <p class="text-gray-600 mt-2 font-bold">See our technology in action</p>
+                </div>
+
+                <div class="relative video-slider-container">
+                    <div class="swiper myVideoSlider">
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <div class="video-card">
+                                    <video src="Machinery/v1.mp4" poster="Machinery/1.jpeg" class="w-full h-full" loop muted playsinline preload="metadata"></video>
+                                    <div class="play-pause-icon">
+                                        <svg class="w-16 h-16 text-white opacity-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="video-title">3-Layer Blown Film Extrusion</div>
+                                        <div class="controls">
+                                            <button class="control-btn mute-btn">
+                                                <svg class="unmuted-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                                <svg class="muted-icon hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2L17 10m2 2l2 2"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="swiper-slide">
+                                <div class="video-card">
+                                    <video src="Machinery/v2.mp4" poster="Machinery/2.jpeg" class="w-full h-full" loop muted playsinline preload="metadata"></video>
+                                     <div class="play-pause-icon">
+                                        <svg class="w-16 h-16 text-white opacity-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="video-title">High-Speed Winding Machine</div>
+                                        <div class="controls">
+                                            <button class="control-btn mute-btn">
+                                                <svg class="unmuted-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                                <svg class="muted-icon hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2L17 10m2 2l2 2"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="video-card">
+                                    <video src="Machinery/v3.mp4" poster="Machinery/3.jpeg" class="w-full h-full" loop muted playsinline preload="metadata"></video>
+                                     <div class="play-pause-icon">
+                                        <svg class="w-16 h-16 text-white opacity-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="video-title">Automated Roll Handling</div>
+                                        <div class="controls">
+                                            <button class="control-btn mute-btn">
+                                                <svg class="unmuted-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                                <svg class="muted-icon hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2L17 10m2 2l2 2"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="swiper-slide">
+                                <div class="video-card">
+                                    <video src="Machinery/v4.mp4" poster="Machinery/3.jpeg" class="w-full h-full" loop muted playsinline preload="metadata"></video>
+                                     <div class="play-pause-icon">
+                                        <svg class="w-16 h-16 text-white opacity-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="video-title">Quality Control Station</div>
+                                        <div class="controls">
+                                            <button class="control-btn mute-btn">
+                                                <svg class="unmuted-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                                <svg class="muted-icon hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2L17 10m2 2l2 2"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></div>
+                    <div class="swiper-button-prev"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-5xl mx-auto px-6 py-14">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-10 animate-on-scroll inline-block"
+                    style="background-color: #f57e28; color: #ffffff; border-radius: 30px; padding: 8px 18px; font-size: 24px;">
+                    Frequently Asked Questions
+                </h2>
+            </div>
+            <div class="text-gray-900 max-w-3xl mx-auto text-left space-y-4">
+                <div class="faq-item border rounded-lg shadow-sm">
+                    <div class="faq-question flex justify-between items-center p-4 cursor-pointer"><p class="font-semibold">What products do you offer?</p><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span></div>
+                    <div class="faq-answer"><p class="text-gray-600 text-sm leading-normal max-w-prose">We offer stretch films, shrink films, and multilayer polyfilms for various packaging needs.</p></div>
+                </div>
+                <div class="faq-item border rounded-lg shadow-sm">
+                    <div class="faq-question flex justify-between items-center p-4 cursor-pointer"><p class="font-semibold">What is your production capacity?</p><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span></div>
+                    <div class="faq-answer"><p class="text-gray-600 text-sm leading-normal max-w-prose">Our facility spans 40,000 sq. ft., allowing us to meet high production demands efficiently.</p></div>
+                </div>
+                <div class="faq-item border rounded-lg shadow-sm">
+                    <div class="faq-question flex justify-between items-center p-4 cursor-pointer"><p class="font-semibold">Are your products food-safe?</p><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span></div>
+                    <div class="faq-answer"><p class="text-gray-600 text-sm leading-normal max-w-prose">Yes, our products are designed to meet stringent hygiene standards for food packaging applications.</p></div>
+                </div>
+                <div class="faq-item border rounded-lg shadow-sm">
+                    <div class="faq-question flex justify-between items-center p-4 cursor-pointer"><p class="font-semibold">Do you offer custom solutions?</p><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></span></div>
+                    <div class="faq-answer"><p class="text-gray-600 text-sm leading-normal max-w-prose">Yes, we provide tailored packaging solutions to meet specific customer requirements.</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-start gap-8">
+            <div>
+                <h3 class="text-white font-semibold text-lg">Harshita Plastic Products Pvt. Ltd.</h3>
+                <h4 class="text-xs">Leading manufacturer of flexible packaging solutions.</h4>
+                <br>
+                <p class="text-xs text-gray-500">© 2025. All rights reserved.</p>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-lg mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-blue-600 transition-colors">Home</a></li>
+                    <li><a href="product.html" class="hover:text-blue-600 transition-colors">Products</a></li>
+                    <li><a href="about.html" class="hover:text-blue-600 transition-colors">Who We Are</a></li>
+                    <li><a href="contact.html" class="hover:text-blue-600 transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-lg mb-4">Contact Us</h3>
+                <p class="text-sm mb-2"><a href="tel:+919999874038">+91 9999874038</a></p>
+                <p class="text-sm mb-2"><a href="tel:+919871977969">+91 9871977969</a></p>
+                <p class="text-sm mb-2"><a href="mailto:info@harshitaplastics.com">info@harshitaplastics.com</a></p>
+                <p class="text-sm mb-2"><a href="mailto:harshitaplasticproducts@gmail.com">harshitaplasticproducts@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // --- General & Other Sliders ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuButton) {
+                menuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            }
+
+            const heroSwiper = new Swiper('.product-hero-swiper', {
+                slidesPerView: 1, spaceBetween: 30, loop: true, autoplay: { delay: 3000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination-hero', clickable: true },
+                navigation: { nextEl: '.product-hero-swiper .swiper-button-next', prevEl: '.product-hero-swiper .swiper-button-prev' },
+                breakpoints: { 640: { slidesPerView: 2, spaceBetween: 20 }, 1024: { slidesPerView: 3, spaceBetween: 30 } }
+            });
+
+            const machinerySwiper = new Swiper('.machinery-swiper', {
+                loop: true,
+                spaceBetween: 30,
+                slidesPerView: 1,
+                autoplay: { delay: 3500, disableOnInteraction: false },
+                pagination: { el: '.machinery-swiper .swiper-pagination', clickable: true },
+                navigation: { nextEl: '.machinery-swiper .swiper-button-next', prevEl: '.machinery-swiper .swiper-button-prev' },
+                breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+            });
+
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== faqItem) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    faqItem.classList.toggle('active');
+                });
+            });
+
+            // --- REVISED VIDEO SLIDER SCRIPT ---
+            const videoSwiper = new Swiper('.myVideoSlider', {
+                loop: true,
+                spaceBetween: 24,
+                slidesPerView: 1,
+                navigation: {
+                    nextEl: '.video-slider-container .swiper-button-next',
+                    prevEl: '.video-slider-container .swiper-button-prev',
+                },
+                breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+                on: {
+                    init: function () {
+                        // Start playing all visible videos on initialization
+                        this.slides.forEach(slide => {
+                            const video = slide.querySelector('video');
+                            if (video) {
+                                video.play().catch(e => console.log("Autoplay was prevented."));
+                            }
+                        });
+                    },
+                },
+            });
+
+            const allVideoCards = document.querySelectorAll('.video-card');
+
+            // Function to update all mute button icons based on video state
+            const updateAllMuteIcons = () => {
+                allVideoCards.forEach(card => {
+                    const video = card.querySelector('video');
+                    const muteBtn = card.querySelector('.mute-btn');
+                    const mutedIcon = muteBtn.querySelector('.muted-icon');
+                    const unmutedIcon = muteBtn.querySelector('.unmuted-icon');
+                    
+                    if (video.muted) {
+                        mutedIcon.classList.remove('hidden');
+                        unmutedIcon.classList.add('hidden');
+                    } else {
+                        mutedIcon.classList.add('hidden');
+                        unmutedIcon.classList.remove('hidden');
+                    }
+                });
+            };
+
+            allVideoCards.forEach(card => {
+                const video = card.querySelector('video');
+                const muteBtn = card.querySelector('.mute-btn');
+
+                // Play/Pause on card click
+                card.addEventListener('click', (e) => {
+                    // Prevent card click from triggering if mute button was the target
+                    if (!muteBtn.contains(e.target)) {
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    }
+                });
+                
+                // Mute/Unmute functionality
+                muteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click event
+                    const isCurrentlyMuted = video.muted;
+
+                    // First, mute all videos
+                    allVideoCards.forEach(c => {
+                        c.querySelector('video').muted = true;
+                    });
+
+                    // Then, unmute only the clicked one if it was muted
+                    video.muted = !isCurrentlyMuted;
+
+                    updateAllMuteIcons();
+                });
+
+                // Sync play/pause icon with video state
+                video.addEventListener('play', () => card.classList.remove('is-paused'));
+                video.addEventListener('pause', () => card.classList.add('is-paused'));
+
+                // Initialize state
+                if (video.paused) {
+                    card.classList.add('is-paused');
+                }
+            });
+
+            // Initial icon setup
+            updateAllMuteIcons();
+        });
+    </script>
+</body>
+
+</html>
